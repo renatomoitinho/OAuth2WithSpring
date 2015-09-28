@@ -1,8 +1,26 @@
-# spring-boot-security-oaut
+# spring-boot-security-oauth
+### Tech
+* Spring Boot
+* Spring Security
+* Spring Security OAuth
+* Spring Data JPA
 
+### build
+```sh
+    mvn clean package spring-boot:run
+    curl http://localhost:9000/data-rest-api/users
+```
+```json
+{
+   "error":"unauthorized",
+   "error_description":"Full authentication is required to access this resource"
+}
+```
+```sh
+$ curl -X POST -vu clientapp:123456 http://localhost:9000/data-rest-api/oauth/token -H "Accept: application/json" -d "password=123456&username=dorris&grant_type=password&scope=read%20write&client_secret=123456&client_id=clientapp"
+```
 
-curl -X POST -vu clientapp:123456 http://localhost:9000/data-rest-api/oauth/token -H "Accept: application/json" -d "password=123456&username=dorris&grant_type=password&scope=read%20write&client_secret=123456&client_id=clientapp"
-
+```json
 {
    "access_token":"3956c4a1-796f-415b-8f12-7e92cdd39aaa",
    "token_type":"bearer",
@@ -10,6 +28,18 @@ curl -X POST -vu clientapp:123456 http://localhost:9000/data-rest-api/oauth/toke
    "expires_in":43199,
    "scope":"read write"
 }
+```
+```sh
+curl http://localhost:9000/data-rest-api/users -H "Authorization: Bearer 3956c4a1-796f-415b-8f12-7e92cdd39aaa"
+```
+# :)
 
-curl http://localhost:9000/data-rest-api/users -H "Authorization: Bearer 6be52289-7ce8-451d-aef6-ea6cc3498673"
-
+```json
+[  
+   {  
+      "login":"dorris",
+      "name":"Dorris Froelich",
+      "email":"dorrisfroelich@gmail.com"
+   }
+]
+```
