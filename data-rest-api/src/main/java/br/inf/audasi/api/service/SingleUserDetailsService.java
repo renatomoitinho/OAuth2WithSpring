@@ -27,6 +27,5 @@ public class SingleUserDetailsService implements UserDetailsService {
             return new ApiUserDetails(optional.get());
         }
         throw new UsernameNotFoundException(String.format("User %s does not exist!", login));
-
     }
 }
