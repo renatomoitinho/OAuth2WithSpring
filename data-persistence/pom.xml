@@ -22,6 +22,7 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
+            <version>${spring.data.version}</version>
         </dependency>
 
         <dependency>
@@ -33,6 +34,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
         </dependency>
+        <!-- spring framework -->
 
         <!-- connection -->
         <dependency>
@@ -118,6 +120,7 @@
         <hibernate.entity.version>5.0.1.Final</hibernate.entity.version>
         <postgresql.version>9.4-1201-jdbc41</postgresql.version>
         <c3p0.pool.version>0.9.1.2</c3p0.pool.version>
+        <spring.data.version>1.9.0.RELEASE</spring.data.version>
     </properties>
 
 </project>

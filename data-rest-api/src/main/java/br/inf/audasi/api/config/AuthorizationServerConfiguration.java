@@ -1,7 +1,6 @@
 package br.inf.audasi.api.config;
 
 import br.inf.audasi.api.service.SingleUserDetailsService;
-import br.inf.audasi.domain.details.ApiUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
