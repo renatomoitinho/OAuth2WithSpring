@@ -36,7 +36,7 @@ public class ApplicationConfig {
 
     @Bean
     public RedisOperations redisTemplate() {
-        RedisTemplate redisTemplate = new StringRedisTemplate();
+        RedisTemplate redisTemplate = new RedisTemplate();
         redisTemplate.setConnectionFactory(jedisConnectionFactory());
         redisTemplate.setEnableTransactionSupport(true);
         return redisTemplate;

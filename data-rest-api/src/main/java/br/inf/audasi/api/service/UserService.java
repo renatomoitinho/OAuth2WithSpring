@@ -10,12 +10,12 @@ import org.springframework.stereotype.Repository;
  * @author renatomoitinhodias@gmail.com
  */
 @Repository
+@Cacheable(value="userService")
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
 
-    @Cacheable(value="messageCache")
     public User findByLogin(String login) {
         return userRepository.findByLogin(login).get();
     }
