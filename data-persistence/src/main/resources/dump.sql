@@ -37,6 +37,19 @@ CREATE TABLE user_role
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
+CREATE TABLE oauth_client_details (
+  client_id CHARACTER VARYING(256) PRIMARY KEY NOT NULL,
+  resource_ids CHARACTER VARYING(256),
+  client_secret CHARACTER VARYING(256),
+  scope CHARACTER VARYING(256),
+  authorized_grant_types CHARACTER VARYING(256),
+  web_server_redirect_uri CHARACTER VARYING(256),
+  authorities CHARACTER VARYING(256),
+  access_token_validity INTEGER,
+  refresh_token_validity INTEGER,
+  additional_information CHARACTER VARYING(4096),
+  autoapprove CHARACTER VARYING(256)
+);
 
 insert into users (EMAIL, LOGIN, NAME, PASSWORD, ID) values ('dorrisfroelich@gmail.com','dorris', 'Dorris Froelich','123456',1);
 insert into users (EMAIL, LOGIN, NAME, PASSWORD, ID) values ('dawnvansickle@gmail.com','dawn', 'Dawn Vansickle','123456',2);
@@ -50,3 +63,21 @@ insert into user_role(user_id, role_id) values (1,1);
 insert into user_role(user_id, role_id) values (1,2);
 insert into user_role(user_id, role_id) values (2,1);
 insert into user_role(user_id, role_id) values (3,1);
+
+select nextval ('users_id_seq');
+select nextval ('users_id_seq');
+select nextval ('users_id_seq');
+
+insert into oauth_client_details (
+  client_id,
+  resource_ids,
+  client_secret,
+  scope,
+  authorized_grant_types,
+  web_server_redirect_uri,
+  authorities,
+  access_token_validity,
+  refresh_token_validity,
+  additional_information,
+  autoapprove)
+values ('clientapp','restservice','123456','read write','password refresh_token',NULL,'USER',1,1,NULL);

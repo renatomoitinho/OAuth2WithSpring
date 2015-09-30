@@ -13,18 +13,27 @@ import org.springframework.web.bind.annotation.RestController;
  * @author renatomoitinhodias@gmail.com
  */
 @RestController
-@Secured("ROLE_USER")
 public class SampleController {
 
     @Autowired
     private UserRepository userRepository;
 
     @RequestMapping("/")
+    public String home() {
+        return "hello!!!";
+    }
+
+    @RequestMapping("/guest") @Secured("ROLE_GUEST")
+    public String guest() {
+        return "hello!!!";
+    }
+
+    @RequestMapping("/hello") @Secured("ROLE_USER")
     public String home(@AuthenticationPrincipal User user) {
         return String.format("Hello, %s!", user.getName());
     }
 
-    @RequestMapping("/users")
+    @RequestMapping("/users") @Secured("ROLE_ADMIN")
     public @ResponseBody Iterable<User> getUsers() {
           return userRepository.findAll();
     }

@@ -15,6 +15,8 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
+import javax.sql.DataSource;
+
 /**
  * @author renatomoitinhodias@gmail.com
  */
@@ -23,7 +25,8 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
     private static final String RESOURCE_ID = "restservice";
 
-    private TokenStore tokenStore = new InMemoryTokenStore();
+    @Autowired
+    private TokenStore tokenStore;
 
     @Autowired
     @Qualifier("authenticationManagerBean")
@@ -32,13 +35,16 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Autowired
     private SingleUserDetailsService userDetailsService;
 
+    @Autowired
+    private DataSource dataSource;
+
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints)
             throws Exception {
         // @formatter:off
         endpoints
-                .tokenStore(this.tokenStore)
-                .authenticationManager(this.authenticationManager)
+                .tokenStore(tokenStore)
+                .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService);
         // @formatter:on
     }
@@ -46,14 +52,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         // @formatter:off
-        clients
-                .inMemory()
-                .withClient("clientapp")
-                .authorizedGrantTypes("password", "refresh_token")
-                .authorities("USER")
-                .scopes("read", "write")
-                .resourceIds(RESOURCE_ID)
-                .secret("123456");
+        clients.jdbc(dataSource).inMemory();
         // @formatter:on
     }
 
@@ -62,8 +61,13 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public DefaultTokenServices tokenServices() {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setSupportRefreshToken(true);
-        tokenServices.setTokenStore(this.tokenStore);
+        tokenServices.setTokenStore(tokenStore());
         return tokenServices;
+    }
+
+    @Bean
+    public TokenStore tokenStore() {
+        return new InMemoryTokenStore();
     }
 
 }

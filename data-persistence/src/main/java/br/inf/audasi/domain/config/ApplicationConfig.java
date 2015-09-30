@@ -25,7 +25,7 @@ import java.beans.PropertyVetoException;
 @Configuration
 @ComponentScan("br.inf.audasi.domain")
 @EnableJpaRepositories("br.inf.audasi.domain.repository")
-@PropertySource({"classpath:jdbc.properties"})
+@PropertySource({"classpath:jdbc.properties", "classpath:redis.properties"})
 @EnableTransactionManagement
 public class ApplicationConfig {
 
@@ -75,4 +75,5 @@ public class ApplicationConfig {
         dataSource.setIdleConnectionTestPeriod(Integer.valueOf(env.getProperty("jdbc.idleConnectionTestPeriod")));
         return dataSource;
     }
+
 }

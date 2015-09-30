@@ -19,6 +19,7 @@
     <dependencies>
 
         <!-- spring framework -->
+
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
@@ -34,6 +35,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
         </dependency>
+
         <!-- spring framework -->
 
         <!-- connection -->
