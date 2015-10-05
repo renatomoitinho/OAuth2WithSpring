@@ -8,7 +8,7 @@
     <name>data-parent</name>
     <packaging>pom</packaging>
     <version>1.0.1</version>
-
+    <url>https://github.com/renatomoitinho/${project.artifactId}/wiki</url>
     <description>parent data configurations</description>
     <developers>
         <developer>
@@ -16,6 +16,10 @@
             <name>Renato Moitinho Dias</name>
         </developer>
     </developers>
+    <scm>
+        <connection>scm:https://github.com/renatomoitinho/${project.artifactId}</connection>
+        <tag>master</tag>
+    </scm>
 
     <dependencyManagement>
         <dependencies>
@@ -147,8 +151,6 @@
     </dependencyManagement>
 
     <build>
-        <directory>target</directory>
-        <outputDirectory>target/classes</outputDirectory>
         <extensions>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
@@ -168,11 +170,24 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <escapeString>\</escapeString>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.2</version>
                 <configuration>
                     <preparationGoals>clean install</preparationGoals>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.9</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -186,29 +201,53 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.4</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.5.4</version>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.9.1</version>
-                <executions>
-                    <execution>
-                        <id>remove-old-artifacts</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>remove-project-artifact</goal>
-                        </goals>
-                        <configuration>
-                            <removeAll>true</removeAll>
-                            <failOnError>false</failOnError>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>2.10</version>
+            </plugin>
+            <plugin>
+                <groupId>com.goldin.plugins</groupId>
+                <artifactId>maven-copy-plugin</artifactId>
+                <version>0.2.3.8-beta-9</version>
+            </plugin>
+            <plugin>
+                <groupId>com.goldin.plugins</groupId>
+                <artifactId>maven-sshexec-plugin</artifactId>
+                <version>0.2.3.8-beta-9</version>
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>pub-collect-fetcher</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>data-persistence</module>
+                <module>data-rest-api</module>
+            </modules>
+        </profile>
+    </profiles>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
