@@ -1,83 +1,84 @@
--- Table: role
--- DROP TABLE role;
+-- TABLE: ROLE
+-- DROP TABLE ROLE;
 
-CREATE TABLE role
+CREATE TABLE ROLE
 (
-  id serial NOT NULL,
-  name character varying(50) NOT NULL,
-  CONSTRAINT role_pkey PRIMARY KEY (id)
+  ID SERIAL NOT NULL,
+  NAME CHARACTER VARYING(50) NOT NULL,
+  CONSTRAINT ROLE_PKEY PRIMARY KEY (ID)
 );
 
--- Table: users
--- DROP TABLE users;
+-- TABLE: USERS
+-- DROP TABLE USERS;
 
-CREATE TABLE users
+CREATE TABLE USERS
 (
-  id serial NOT NULL,
-  login character varying(50) NOT NULL,
-  name character varying(150) NOT NULL,
-  email character varying(150) NOT NULL,
-  password character varying(150) NOT NULL,
-  CONSTRAINT users_pkey PRIMARY KEY (id)
+  ID SERIAL NOT NULL,
+  LOGIN CHARACTER VARYING(50) NOT NULL,
+  NAME CHARACTER VARYING(150) NOT NULL,
+  EMAIL CHARACTER VARYING(150) NOT NULL,
+  PASSWORD CHARACTER VARYING(150) NOT NULL,
+  CONSTRAINT USERS_PKEY PRIMARY KEY (ID)
 );
 
--- Table: user_role
--- DROP TABLE user_role;
+-- TABLE: USER_ROLE
+-- DROP TABLE USER_ROLE;
 
-CREATE TABLE user_role
+CREATE TABLE USER_ROLE
 (
-  user_id integer NOT NULL,
-  role_id integer NOT NULL,
-  CONSTRAINT user_role_pkey PRIMARY KEY (user_id, role_id),
-  CONSTRAINT role_userrole_foreign FOREIGN KEY (role_id)
-      REFERENCES role (id) MATCH SIMPLE
+  USER_ID INTEGER NOT NULL,
+  ROLE_ID INTEGER NOT NULL,
+  CONSTRAINT USER_ROLE_PKEY PRIMARY KEY (USER_ID, ROLE_ID),
+  CONSTRAINT ROLE_USERROLE_FOREIGN FOREIGN KEY (ROLE_ID)
+      REFERENCES ROLE (ID) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT user_userroles_foreign FOREIGN KEY (user_id)
-      REFERENCES users (id) MATCH SIMPLE
+  CONSTRAINT USER_USERROLES_FOREIGN FOREIGN KEY (USER_ID)
+      REFERENCES USERS (ID) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-CREATE TABLE oauth_client_details (
-  client_id CHARACTER VARYING(256) PRIMARY KEY NOT NULL,
-  resource_ids CHARACTER VARYING(256),
-  client_secret CHARACTER VARYING(256),
-  scope CHARACTER VARYING(256),
-  authorized_grant_types CHARACTER VARYING(256),
-  web_server_redirect_uri CHARACTER VARYING(256),
-  authorities CHARACTER VARYING(256),
-  access_token_validity INTEGER,
-  refresh_token_validity INTEGER,
-  additional_information CHARACTER VARYING(4096),
-  autoapprove CHARACTER VARYING(256)
+CREATE TABLE OAUTH_CLIENT_DETAILS (
+  CLIENT_ID CHARACTER VARYING(256) PRIMARY KEY NOT NULL,
+  RESOURCE_IDS CHARACTER VARYING(256),
+  CLIENT_SECRET CHARACTER VARYING(256),
+  SCOPE CHARACTER VARYING(256),
+  AUTHORIZED_GRANT_TYPES CHARACTER VARYING(256),
+  WEB_SERVER_REDIRECT_URI CHARACTER VARYING(256),
+  AUTHORITIES CHARACTER VARYING(256),
+  ACCESS_TOKEN_VALIDITY INTEGER,
+  REFRESH_TOKEN_VALIDITY INTEGER,
+  ADDITIONAL_INFORMATION CHARACTER VARYING(4096),
+  AUTOAPPROVE CHARACTER VARYING(256)
 );
 
 insert into users (EMAIL, LOGIN, NAME, PASSWORD, ID) values ('dorrisfroelich@gmail.com','dorris', 'Dorris Froelich','123456',1);
 insert into users (EMAIL, LOGIN, NAME, PASSWORD, ID) values ('dawnvansickle@gmail.com','dawn', 'Dawn Vansickle','123456',2);
 insert into users (EMAIL, LOGIN, NAME, PASSWORD, ID) values ('thurmanvanhouten@gmail.com','thurman','Thurman Vanhouten','123456',3);
 
-insert into role(id, name) values (1,'ROLE_USER');
-insert into role(id, name) values (2,'ROLE_ADMIN');
-insert into role(id, name) values (3,'ROLE_GUEST');
+INSERT INTO ROLE(ID, NAME) VALUES (1,'ROLE_USER');
+INSERT INTO ROLE(ID, NAME) VALUES (2,'ROLE_ADMIN');
+INSERT INTO ROLE(ID, NAME) VALUES (3,'ROLE_GUEST');
 
 insert into user_role(user_id, role_id) values (1,1);
 insert into user_role(user_id, role_id) values (1,2);
 insert into user_role(user_id, role_id) values (2,1);
 insert into user_role(user_id, role_id) values (3,1);
 
-select nextval ('users_id_seq');
-select nextval ('users_id_seq');
-select nextval ('users_id_seq');
+INSERT INTO USER_ROLE(USER_ID, ROLE_ID) VALUES (1,1);
+INSERT INTO USER_ROLE(USER_ID, ROLE_ID) VALUES (1,2);
+INSERT INTO USER_ROLE(USER_ID, ROLE_ID) VALUES (2,1);
+INSERT INTO USER_ROLE(USER_ID, ROLE_ID) VALUES (3,1);
 
-insert into oauth_client_details (
-  client_id,
-  resource_ids,
-  client_secret,
-  scope,
-  authorized_grant_types,
-  web_server_redirect_uri,
-  authorities,
-  access_token_validity,
-  refresh_token_validity,
-  additional_information,
-  autoapprove)
+INSERT INTO OAUTH_CLIENT_DETAILS (
+  CLIENT_ID,
+  RESOURCE_IDS,
+  CLIENT_SECRET,
+  SCOPE,
+  AUTHORIZED_GRANT_TYPES,
+  WEB_SERVER_REDIRECT_URI,
+  AUTHORITIES,
+  ACCESS_TOKEN_VALIDITY,
+  REFRESH_TOKEN_VALIDITY,
+  ADDITIONAL_INFORMATION,
+  AUTOAPPROVE)
 values ('clientapp','restservice','123456','read write','password refresh_token',NULL,'USER',1,1,NULL);

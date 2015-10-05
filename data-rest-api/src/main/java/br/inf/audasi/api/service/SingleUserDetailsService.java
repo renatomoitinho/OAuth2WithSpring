@@ -22,10 +22,6 @@ public class SingleUserDetailsService implements UserDetailsService {
     private UserService userService;
 
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        Optional<User> optional = Optional.of(userService.findByLogin(login));
-        if (optional.isPresent()) {
-            return new ApiUserDetails(optional.get());
-        }
-        throw new UsernameNotFoundException(String.format("User %s does not exist!", login));
+        return new ApiUserDetails(userService.findByLogin(login));
     }
 }
