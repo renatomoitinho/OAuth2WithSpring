@@ -1,55 +1,45 @@
 package br.inf.audasi.api.controller;
 
+import br.inf.audasi.api.service.UserService;
 import br.inf.audasi.domain.entity.User;
-import br.inf.audasi.domain.repository.UserRepository;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /**
  * @author renatomoitinhodias@gmail.com
  */
 @RestController
-@RequestMapping(value = "/api",  method = RequestMethod.GET , produces = {"application/json;charset=UTF-8"})
-public class SampleController {
+@RequestMapping(value = "/api", produces = {"application/json;charset=UTF-8"})
+public class SampleController extends ApiController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
-    @RequestMapping(value = "/guest", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = GET)
     public String guest() {
         return "hello!!!";
     }
 
+    @RequestMapping(value = "/test", method = GET)
+    public String test() {
+        return "test 123!!!";
+    }
+
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    @JsonIgnore
+    @RequestMapping(value = "/user", method = GET)
     public String home(@AuthenticationPrincipal User user) {
         return String.format("Hello, %s!", user.getName());
     }
 
     @Secured("ROLE_ADMIN")
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-
-    @ApiOperation(
-            value = "find all users",
-            response = User.class ,
-            responseContainer = "List",
-            authorizations = {
-                    @Authorization(value="sampleOauth", scopes = {
-                            @AuthorizationScope(scope = "read:user", description = "read scopes")}
-                    )}
-    )
-    @ApiResponses({
-            @ApiResponse(code =  401, message ="{\"error\":\"unauthorized\",\"error_description\":\"Full authentication is required to access this resource\"}")
-    })
+    @RequestMapping(value = "/users", method = GET)
     public @ResponseBody Iterable<User> getUsers() {
-          return userRepository.findAll();
+        return userService.findAll();
     }
 }

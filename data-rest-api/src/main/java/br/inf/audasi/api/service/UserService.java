@@ -7,13 +7,14 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 /**
  * @author renatomoitinhodias@gmail.com
  */
 @Repository
-@Cacheable(value="userService")
+@Cacheable(value = "userService")
 public class UserService {
 
     @Autowired
@@ -21,10 +22,14 @@ public class UserService {
 
     public User findByLogin(String login) {
         Optional<User> optional = userRepository.findByLogin(login);
-        if(optional.isPresent()){
+        if (optional.isPresent()) {
             return optional.get();
         }
         throw new UsernameNotFoundException(String.format("User %s does not exist!", login));
+    }
+
+    public Iterable<User> findAll() {
+        return userRepository.findAll();
     }
 
 }

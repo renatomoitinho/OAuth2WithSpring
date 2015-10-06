@@ -11,12 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-import java.util.stream.Stream;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -35,7 +31,9 @@ public class RepositoryTest {
         assertThat(userRepository, notNullValue());
     }
 
-    @Test @Transactional @Rollback(true)
+    @Test
+    @Transactional
+    @Rollback(true)
     public void repositoryFlowTest() {
         User user1 = userRepository.save(createSingleUser());
         User user2 = userRepository.save(createSingleUser());
