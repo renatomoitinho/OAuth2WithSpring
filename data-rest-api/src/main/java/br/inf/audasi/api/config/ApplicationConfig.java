@@ -1,14 +1,19 @@
 package br.inf.audasi.api.config;
 
+import br.inf.audasi.api.helper.ApiAuthorization;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
-import org.springframework.core.env.Environment;
 import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+
+import java.io.IOException;
 
 /**
  * @author renatomoitinhodias@gmail.com
@@ -16,34 +21,36 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Configuration
 @EnableCaching
 @ComponentScan(basePackages = "br.inf.audasi.api")
-@PropertySource("classpath:redis.properties")
 @Import(br.inf.audasi.domain.config.ApplicationConfig.class)
 public class ApplicationConfig {
 
+    @Bean
+    @Primary
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
+
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        //JsonRedisSerializer<Optional> optionalJsonDeserializer = new JsonRedisSerializer<>(Optional.class);
+        template.setConnectionFactory(factory);
+        //template.setValueSerializer(optionalJsonDeserializer);
+        return template;
+    }
+
+    @Bean
     @Autowired
-    private Environment env;
-
-    @Bean
-    public JedisConnectionFactory jedisConnectionFactory() {
-        JedisConnectionFactory factory = new JedisConnectionFactory();
-        factory.setHostName(env.getProperty("redis.host"));
-        factory.setPort(env.getProperty("redis.port", Integer.class));
-        factory.setUsePool(env.getProperty("redis.use.pool", Boolean.class));
-        factory.setTimeout(env.getProperty("redis.timeout", Integer.class));
-        return factory;
+    public CacheManager cacheManager(RedisTemplate<String, Object> redisTemplate) {
+        return new RedisCacheManager(redisTemplate);
     }
 
     @Bean
-    public RedisOperations redisTemplate() {
-        RedisTemplate redisTemplate = new RedisTemplate();
-        redisTemplate.setConnectionFactory(jedisConnectionFactory());
-        redisTemplate.setEnableTransactionSupport(true);
-        return redisTemplate;
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper()
+                .registerModule(new JSR310Module())
+                .registerModule(new Jdk8Module());
     }
 
     @Bean
-    public CacheManager cacheManager() {
-        CacheManager cacheManager = new RedisCacheManager(redisTemplate());
-        return cacheManager;
+    public ApiAuthorization apiAuthorization() throws IOException {
+        byte[] bytes = IOUtils.toByteArray(getClass().getResourceAsStream("/AuthorizationServerConfiguration.json"));
+        return objectMapper().readValue(bytes, ApiAuthorization.class);
     }
 }

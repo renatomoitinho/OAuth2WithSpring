@@ -5,16 +5,17 @@ import br.inf.audasi.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 /**
  * @author renatomoitinhodias@gmail.com
  */
-@Repository
-@Cacheable(value = "userService")
+@Service
+@Transactional
+@Cacheable(value = "UserService")
 public class UserService {
 
     @Autowired

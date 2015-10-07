@@ -9,36 +9,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-
 /**
  * @author renatomoitinhodias@gmail.com
  */
 @RestController
 @RequestMapping(value = "/api", produces = {"application/json;charset=UTF-8"})
-public class SampleController extends ApiController {
+public class SampleController {
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/", method = GET)
+    @RequestMapping("/")
+    public String home() {
+        return "hello!!!";
+    }
+
+    @RequestMapping("/guest") @Secured("ROLE_GUEST")
     public String guest() {
         return "hello!!!";
     }
 
-    @RequestMapping(value = "/test", method = GET)
-    public String test() {
-        return "test 123!!!";
-    }
-
-    @Secured("ROLE_USER")
-    @RequestMapping(value = "/user", method = GET)
+    @RequestMapping("/hello") @Secured("ROLE_USER")
     public String home(@AuthenticationPrincipal User user) {
         return String.format("Hello, %s!", user.getName());
     }
 
-    @Secured("ROLE_ADMIN")
-    @RequestMapping(value = "/users", method = GET)
+    @RequestMapping("/users") @Secured("ROLE_ADMIN")
     public @ResponseBody Iterable<User> getUsers() {
         return userService.findAll();
     }

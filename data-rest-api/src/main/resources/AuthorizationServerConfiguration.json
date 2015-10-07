@@ -1,0 +1,25 @@
+{
+  "resourceId": "rest-api",
+  "serverRedirect": "/oauth/token",
+  "apiAuthorizationConfigurations": [
+    {
+      "clientId": "clientApp",
+      "clientSecret": "123456",
+      "scope": [
+        "read",
+        "write"
+      ],
+      "authorizedGrantTypes": [
+        "password",
+        "refresh_token"
+      ],
+      "authorities": [
+        "USER",
+        "GUEST",
+        "ADMIN"
+      ],
+      "accessTokenValiditySeconds": 3600,
+      "refreshTokenValiditySeconds": 3600
+    }
+  ]
+}

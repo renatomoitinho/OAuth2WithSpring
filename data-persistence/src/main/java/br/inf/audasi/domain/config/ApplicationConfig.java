@@ -50,13 +50,13 @@ public class ApplicationConfig {
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws PropertyVetoException {
-        LocalContainerEntityManagerFactoryBean lemfb = new LocalContainerEntityManagerFactoryBean();
-        lemfb.setDataSource(dataSource());
-        lemfb.setJpaVendorAdapter(jpaVendorAdapter());
-        lemfb.setPackagesToScan("br.inf.audasi.domain.entity");
-        lemfb.afterPropertiesSet();
+        LocalContainerEntityManagerFactoryBean managerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+        managerFactoryBean.setDataSource(dataSource());
+        managerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter());
+        managerFactoryBean.setPackagesToScan(env.getProperty("jdbc.scan.entity"));
+        managerFactoryBean.afterPropertiesSet();
 
-        return lemfb;
+        return managerFactoryBean;
     }
 
     @Bean
