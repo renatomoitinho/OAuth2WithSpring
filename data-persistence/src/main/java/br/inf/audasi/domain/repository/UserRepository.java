@@ -1,7 +1,6 @@
 package br.inf.audasi.domain.repository;
 
 import br.inf.audasi.domain.entity.User;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

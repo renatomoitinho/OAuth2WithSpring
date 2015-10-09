@@ -25,7 +25,7 @@ import java.beans.PropertyVetoException;
 @Configuration
 @ComponentScan("br.inf.audasi.domain")
 @EnableJpaRepositories("br.inf.audasi.domain.repository")
-@PropertySource({"classpath:jdbc.properties", "classpath:redis.properties"})
+@PropertySource({"classpath:jdbc.properties"})
 @EnableTransactionManagement
 public class ApplicationConfig {
 
