@@ -1,9 +1,11 @@
 package br.inf.audasi.api.controller;
 
+import br.inf.audasi.api.roles.RoleAdmin;
+import br.inf.audasi.api.roles.RoleGuest;
+import br.inf.audasi.api.roles.RoleUsers;
 import br.inf.audasi.api.service.UserService;
 import br.inf.audasi.domain.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,17 +26,20 @@ public class SampleController {
         return "hello!!!";
     }
 
-    @RequestMapping("/guest") @Secured("ROLE_GUEST")
+    @RoleGuest
+    @RequestMapping("/guest")
     public String guest() {
         return "hello!!!";
     }
 
-    @RequestMapping("/hello") @Secured("ROLE_USER")
+    @RoleUsers
+    @RequestMapping("/hello")
     public String home(@AuthenticationPrincipal User user) {
         return String.format("Hello, %s!", user.getName());
     }
 
-    @RequestMapping("/users") @Secured("ROLE_ADMIN")
+    @RoleAdmin
+    @RequestMapping("/users")
     public @ResponseBody Iterable<User> getUsers() {
         return userService.findAll();
     }
