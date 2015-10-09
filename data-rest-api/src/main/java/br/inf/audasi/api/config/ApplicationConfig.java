@@ -1,6 +1,7 @@
 package br.inf.audasi.api.config;
 
 import br.inf.audasi.api.helper.ApiAuthorization;
+import br.inf.audasi.api.helper.OptionalJsonRedisSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
@@ -12,6 +13,9 @@ import org.springframework.context.annotation.*;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.io.IOException;
 
@@ -29,9 +33,9 @@ public class ApplicationConfig {
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
 
         RedisTemplate<String, Object> template = new RedisTemplate<>();
-        //JsonRedisSerializer<Optional> optionalJsonDeserializer = new JsonRedisSerializer<>(Optional.class);
         template.setConnectionFactory(factory);
-        //template.setValueSerializer(optionalJsonDeserializer);
+        template.setValueSerializer(new OptionalJsonRedisSerializer());
+        template.setKeySerializer(new StringRedisSerializer());
         return template;
     }
 

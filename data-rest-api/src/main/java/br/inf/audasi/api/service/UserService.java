@@ -15,7 +15,6 @@ import java.util.Optional;
  */
 @Service
 @Transactional
-@Cacheable(value = "UserService")
 public class UserService {
 
     @Autowired
@@ -23,10 +22,7 @@ public class UserService {
 
     public User findByLogin(String login) {
         Optional<User> optional = userRepository.findByLogin(login);
-        if (optional.isPresent()) {
-            return optional.get();
-        }
-        throw new UsernameNotFoundException(String.format("User %s does not exist!", login));
+        return optional.orElseThrow(() -> new UsernameNotFoundException(String.format("User %s does not exist!", login)));
     }
 
     public Iterable<User> findAll() {
