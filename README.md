@@ -7,7 +7,7 @@
 
 ### build
 ```sh
-    mvn clean package spring-boot:run
+    cd data-rest-api && mvn clean package spring-boot:run
 ```
 ```sh
     curl http://localhost:9000/api/users
