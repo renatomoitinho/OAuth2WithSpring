@@ -2,7 +2,6 @@ package br.inf.audasi.api.exception;
 
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;

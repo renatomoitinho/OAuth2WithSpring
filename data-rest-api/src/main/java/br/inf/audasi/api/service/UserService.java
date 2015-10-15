@@ -15,6 +15,7 @@ import java.util.Optional;
  */
 @Service
 @Transactional
+@Cacheable(value = "UserServiceCache")
 public class UserService {
 
     @Autowired
