@@ -21,7 +21,7 @@
 ```
 
 ```sh
-$ curl -X POST -vu clientapp:123456 http://localhost:9000/oauth/token -H "Accept: application/json" -d "password=123456&username=dorris&grant_type=password&scope=read%20write&client_secret=123456&client_id=clientapp"
+$ curl -X POST -vu clientApp:123456 http://localhost:9000/oauth/token -H "Accept: application/json" -d "password=123456&username=dorris&grant_type=password&scope=read%20write&client_secret=123456&client_id=clientApp"
 ```
 # :|
 ```json
