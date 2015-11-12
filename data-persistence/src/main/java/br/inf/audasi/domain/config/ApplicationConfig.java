@@ -1,6 +1,8 @@
 package br.inf.audasi.domain.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
+import org.hibernate.validator.resourceloading.PlatformResourceBundleLocator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -17,6 +19,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.beans.PropertyVetoException;
 
 /**
@@ -75,5 +79,4 @@ public class ApplicationConfig {
         dataSource.setIdleConnectionTestPeriod(Integer.valueOf(env.getProperty("jdbc.idleConnectionTestPeriod")));
         return dataSource;
     }
-
 }
